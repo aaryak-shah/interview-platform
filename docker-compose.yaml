@@ -1,23 +1,28 @@
-
-version: '3.8'
+version: "3.8"
 services:
   # react development server
   client:
-    build: ./client
+    build:
+      context: ./client
+      dockerfile: client.dockerfile
     ports:
-      - '3000:3000'
+      - "3000:3000"
   # server container manages client requests
   server:
-    build: ./server
+    build:
+      context: ./server
+      dockerfile: server.dockerfile
     ports:
-      - '9000:9000'
+      - "9000:9000"
       # localhost:9000/ for host machine
       # server:9000/ for containers
     volumes:
       - userdata:/storage # mounted volume, contains user generated data
   # executor container responds to requests from the server container
   executor:
-    build: ./executor
+    build:
+      context: ./executor
+      dockerfile: executor.dockerfile
     # visible as executor:8080/ for other containers, but the app is hidden to the host
     volumes:
       - userdata:/storage # mounted volume, contains user generated data
