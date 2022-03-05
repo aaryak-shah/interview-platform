@@ -1,0 +1,29 @@
+const express = require("express")
+const cors = require("cors")
+const socketio = require("socket.io")
+const CONSTANTS = require("./constants.js")
+const PORT = CONSTANTS.PORT
+
+// socket.io
+const socket = require("./socket")
+
+// global variables initialised
+const app = express()
+const server = require("http").createServer(app)
+
+// For parsing application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+
+//cors
+app.use(cors())
+
+// middleware, routing
+app.use("/", require("./routes/handler"))
+
+socket.initializer(socketio, server)
+
+// server listening on PORT
+server.listen(PORT, () => {
+    console.log(`app listening at http://localhost:${PORT}`)
+})
