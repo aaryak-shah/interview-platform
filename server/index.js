@@ -4,6 +4,7 @@ const socketio = require("socket.io")
 const mongoConnection = require("./db/conn")
 const cookieParser = require("cookie-parser")
 require("dotenv").config()
+require("./global")
 const CONSTANTS = require("./constants.js")
 const PORT = CONSTANTS.PORT
 
@@ -23,24 +24,12 @@ app.use(cors())
 
 mongoConnection()
   .then((mongoDefaultConnection) => {
-    console.log(
-      global.color.green,
-      "Successfully connected to mongoDB server",
-      global.color.reset
-    )
+    console.log("Successfully connected to mongoDB server")
     global.mongoDefaultConnection = mongoDefaultConnection
   })
-  .catch(() => {
-    console.error(
-      global.color.red,
-      "Failed to connect mongoDB server",
-      global.color.reset
-    )
-    console.log(
-      global.color.yellow,
-      "Stopping the server...",
-      global.color.reset
-    )
+  .catch((e) => {
+    console.error(`Failed to connect mongoDB server: ${e}`)
+    console.log("Stopping the server...")
     process.exit(0)
   })
 

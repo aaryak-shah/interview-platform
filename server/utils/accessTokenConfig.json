@@ -1,0 +1,6 @@
+{
+  "issuer": "InterviewPlatform",
+  "subject": "Access",
+  "expiresIn": "60d",
+  "algorithm": "HS256"
+}

@@ -1,11 +1,11 @@
-const mongoose = require("mongoose"),
+const mongoose = require("mongoose")
 
 const QuestionsSchema = new mongoose.Schema(
   {
     author: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "Users"
+      ref: "Users",
     },
     title: {
       type: String,
@@ -27,7 +27,7 @@ const QuestionsSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 )
 
 module.exports = mongoose.model("Questions", QuestionsSchema)

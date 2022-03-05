@@ -7,3 +7,5 @@ global.mongoURI = mongoConfig.uri
   .replace("<db>", process.env.DB_NAME)
 
 global.cookieSecret = process.env.COOKIE_SECRET
+global.accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
+global.refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
