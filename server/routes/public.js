@@ -1,5 +1,6 @@
 const Question = require("../db/schema/question")
 const express = require("express")
+const Company = require("../db/schema/company")
 const router = express.Router()
 
 router.get("/questions", async (req, res) => {
@@ -12,8 +13,14 @@ router.get("/questions", async (req, res) => {
   }
 })
 
-router.get("/companies", (req, res) => {
-  // TODO: get company list
+router.get("/companies", async (req, res) => {
+  try {
+    companies = await Company.find({ name: { $ne: "N/A" } })
+    res.status(200).json({ data: companies, error: null })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ data: null, error: "Internal server error" })
+  }
 })
 
 module.exports = router

@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     company: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
     },
     interviews: {
       type: Number,
