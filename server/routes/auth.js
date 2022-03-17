@@ -7,10 +7,10 @@ const { createHash, verifyHash } = require("../utils/hash")
 router.post("/new", async (req, res) => {
   try {
     const { name, email, password, role, company } = req.body
-    try {
-      await User.find({ email })
+    let u = await User.findOne({ email })
+    if (u) {
       res.status(400).json({ data: null, error: "User already exists" })
-    } catch {
+    } else {
       let newUser = await User.create({
         name,
         email,
