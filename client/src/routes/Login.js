@@ -1,7 +1,8 @@
 import React from "react"
+import Auth from "../pages/Auth/Auth"
 
 function Login() {
-  return <div>Login</div>
+  return <Auth />
 }
 
 export default Login

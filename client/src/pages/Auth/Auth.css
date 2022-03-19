@@ -1,0 +1,43 @@
+.auth-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-box {
+  min-width: 45%;
+  max-width: 90%;
+  /* border: 2px solid white; */
+  border-radius: 10px;
+  text-align: start;
+  padding: 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  margin-block: 20px;
+  gap: 10px;
+}
+
+.auth-form > label {
+  margin-top: 10px;
+  font-weight: bold;
+  color: var(--c-foreground);
+}
+
+.radio-input {
+  display: inline;
+}
+.radio-label {
+  display: inline;
+  margin-left: 10px;
+}
+
+@media (max-width: 50em) {
+  .auth-box {
+    min-width: 90%;
+  }
+}

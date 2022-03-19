@@ -1,6 +1,6 @@
 import React from "react"
-import Dashboard from "../pages/home/Dashboard"
-import Landing from "../pages/home/Landing"
+import Dashboard from "../pages/Home/Dashboard"
+import Landing from "../pages/Home/Landing"
 
 function Home({ auth }) {
   return auth ? <Dashboard></Dashboard> : <Landing></Landing>
