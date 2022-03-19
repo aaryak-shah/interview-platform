@@ -35,4 +35,28 @@ router.post("/new", async (req, res) => {
   }
 })
 
+router.post("/end", async (req, res) => {
+  const token = req.cookies["token"]
+  try {
+    const { uid, role } = jwt.verify(token)
+    const { sessionName } = req.body
+    let u = await User.findById(uid)
+    if (u) {
+      if (role != "interviewer") {
+        console.error("Error: unauthorized call to session conclusion.")
+        res.status(401).json({ data: null, error: "Not authorized" })
+      } else {
+        candidate = await Session.findOneAndRemove({ sessionName })
+        res.status(200).json({ data: "Session ended successfuly", error: null })
+      }
+    } else {
+      console.error(e)
+      res.status(400).json({ data: null, error: "User not found" })
+    }
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ data: null, error: "Internal server error" })
+  }
+})
+
 module.exports = router
