@@ -1,0 +1,24 @@
+nav {
+  display: flex;
+  margin: 10px 2%;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+}
+nav .brand {
+  cursor: pointer;
+}
+
+nav .brand h1 {
+  color: var(--c-accent);
+}
+
+nav .auth {
+  display: flex;
+  gap: 30px;
+}
+nav .auth .login {
+  background-color: transparent;
+  border: none;
+  color: var(--c-foreground);
+}

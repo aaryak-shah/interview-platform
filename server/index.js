@@ -20,7 +20,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.use(cookieParser(global.cookieSecret))
-app.use(cors())
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+)
 
 mongoConnection()
   .then((mongoDefaultConnection) => {
