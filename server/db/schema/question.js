@@ -27,6 +27,7 @@ const QuestionsSchema = new mongoose.Schema(
     },
     attempts: {
       type: Number,
+      default: 0,
     },
     difficulty: {
       type: String,

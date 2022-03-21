@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get("/questions", async (req, res) => {
   try {
-    questions = await Question.find({ public: true })
+    questions = await Question.find({ public: true }).populate("company")
     res.status(200).json({ data: questions, error: null })
   } catch (e) {
     console.error(e)

@@ -1,28 +1,58 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { MdWork, MdCalendarToday } from "react-icons/md"
 import { useNavigate } from "react-router-dom"
+import { fetchQuestionInfo } from "../requests/question"
 import "./QuestionCard.css"
 
-function QuestionCard({ qid = "62337392c81479c37b7ae086" }) {
+function padTo2Digits(num) {
+  return num.toString().padStart(2, "0")
+}
+
+function formatDate(date) {
+  return [
+    padTo2Digits(date.getDate()),
+    padTo2Digits(date.getMonth() + 1),
+    date.getFullYear(),
+  ].join("/")
+}
+
+function QuestionCard({ qid }) {
   const navigate = useNavigate()
+  let [questionData, setQuestionData] = useState({})
+  useEffect(() => {
+    fetchQuestionInfo(qid)
+      .then((res) => {
+        console.log(res)
+        setQuestionData(res.data)
+      })
+      .catch((err) => {
+        console.error(err)
+        setQuestionData({})
+      })
+  }, [])
   return (
     <div className="question-card" onClick={() => navigate(`/solve/${qid}`)}>
-      <h2>Lorem ipsum dolor sit amet</h2>
+      <h2>{questionData.title}</h2>
       <div className="tag company-tag">
         <span className="icon">
           <MdWork />
         </span>
-        <span>Google</span>
+        <span>{questionData.company?.name}</span>
       </div>
       <div className="tag">
         <span className="icon">
           <MdCalendarToday />
         </span>
-        <span>25th Aug, 2021</span>
+        <span>{formatDate(new Date(questionData.createdAt))}</span>
       </div>
       <div className="">
-        25k Attempts &bull;{" "}
-        <span className="difficulty-tag difficulty-easy">easy</span>
+        {questionData.attemps ? questionData.attemps : 0} attempts &bull;{" "}
+        <span
+          className={`difficulty-tag difficulty-${
+            questionData.difficulty ? questionData.difficulty : "medium"
+          }`}>
+          {questionData.difficulty ? questionData.difficulty : "medium"}
+        </span>
       </div>
       {/* <button className="attempt">Try This Question</button> */}
     </div>

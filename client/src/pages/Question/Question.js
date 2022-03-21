@@ -29,6 +29,7 @@ import "ace-builds/src-noconflict/theme-tomorrow_night_bright"
 import "ace-builds/src-noconflict/theme-tomorrow_night_blue"
 import "ace-builds/src-noconflict/theme-twilight"
 import "ace-builds/src-noconflict/theme-xcode"
+import ReactMarkdown from "react-markdown"
 
 function Question({ questionData }) {
   let [questionBody, setQuestionBody] = useState("")
@@ -37,12 +38,7 @@ function Question({ questionData }) {
   let [output, setOutput] = useState("")
   let [languageMode, setLanguageMode] = useState("python")
   const theme = "tomorrow_night_bright"
-  useEffect(() => {
-    setQuestionBody(document.querySelector(".question-description"))
-    if (questionBody) {
-      questionBody.innerHTML = questionData ? questionData.bodyHtml : ""
-    }
-  })
+
   return (
     <>
       {questionData ? (
@@ -85,7 +81,9 @@ function Question({ questionData }) {
               25k Attempts &bull;{" "}
               <span className="difficulty-tag difficulty-easy">easy</span>
             </div>
-            <div className="question-description"></div>
+            <div className="question-description">
+              <ReactMarkdown children={questionData.bodyHtml} />
+            </div>
           </section>
           <section className="editor code-editor">
             <AceEditor

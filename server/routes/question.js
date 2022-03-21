@@ -8,7 +8,7 @@ router.post("/new", async (req, res) => {
   const token = req.cookies["token"]
   try {
     const { uid, role } = jwt.verify(token)
-    const { title, bodyHtml, public } = req.body
+    const { title, bodyHtml, public, difficulty } = req.body
     let u = await User.findById(uid)
     if (u) {
       if (role != "interviewer") {
@@ -23,6 +23,7 @@ router.post("/new", async (req, res) => {
           bodyHtml,
           public,
           company,
+          difficulty,
         })
         await User.updateOne({ _id: uid }, { $push: { questions: q } })
         res.status(200).json({ data: q, error: null })
@@ -45,7 +46,7 @@ router.get("/view/:qid", async (req, res) => {
   try {
     let token = req.cookies["token"]
     const { uid, role } = jwt.verify(token)
-    let q = await Question.findById(req.params.qid)
+    let q = await Question.findById(req.params.qid).populate("company")
     console.log("qid: ", req.params.qid, q)
     if (!q) {
       res.status(400).json({ data: null, error: "Question not found" })

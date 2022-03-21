@@ -59,12 +59,30 @@ sub {
   font-size: 12pt;
 }
 
+pre {
+  font-family: "Roboto Mono", monospace;
+  font-size: 12pt;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 5px;
+  white-space: normal;
+}
+
 input {
   background-color: transparent;
   border: 1px solid white;
   border-radius: 5px;
   padding: 10px;
   color: var(--c-foreground);
+}
+
+textarea {
+  background-color: var(--c-background);
+  border: 1px solid white;
+  border-radius: 5px;
+  resize: none;
+  color: var(--c-text);
+  padding: 10px;
 }
 
 .difficulty-tag {

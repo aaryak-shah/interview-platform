@@ -1,5 +1,5 @@
 .dashboard {
-  margin-top: 100px;
+  margin-block: 100px;
   margin-inline: 5%;
   text-align: start;
 }
@@ -9,4 +9,11 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 15px;
   margin-block: 30px;
+}
+
+.dashboard-banner {
+  background-color: var(--c-alt-bg);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
 }

@@ -1,0 +1,36 @@
+.new-question-form {
+  display: flex;
+  flex-direction: column;
+  /* margin-block: 20px; */
+  gap: 10px;
+  width: 50%;
+  flex: 3;
+  justify-content: flex-start;
+}
+
+.new-question-form > label {
+  margin-top: 10px;
+  font-weight: bold;
+  color: var(--c-foreground);
+}
+
+.question-preview {
+  flex: 4;
+  background-color: var(--c-alt-bg);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.question-preview > h1 {
+  margin: 0;
+}
+
+.new-question-area {
+  display: flex;
+  gap: 30px;
+}
+
+.option-select-input {
+  display: flex;
+  gap: 10px;
+}

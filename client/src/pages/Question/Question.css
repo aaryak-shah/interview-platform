@@ -13,15 +13,16 @@
 .question-details {
   grid-column: span 1;
   grid-row: span 3;
+  border-radius: 10px;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: auto;
   background-color: var(--c-alt-bg);
   padding: 20px;
-  border-radius: 10px;
   /* background-color: red; */
 }
+
 .controls {
   grid-column: span 3;
   grid-row: span 1;
