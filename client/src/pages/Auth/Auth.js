@@ -28,7 +28,7 @@ function Auth({ signup = false }) {
         signUp({ name, email, company, role, password })
           .then((res) => {
             console.log(res.data)
-            navigate("/")
+            window.location.href = "/"
           })
           .catch((err) => {
             console.error(err)
@@ -39,7 +39,7 @@ function Auth({ signup = false }) {
       console.log("Logging In")
       logIn({ email, password })
         .then((res) => {
-          navigate("/")
+          window.location.href = "/"
         })
         .catch((err) => {
           console.error(err)

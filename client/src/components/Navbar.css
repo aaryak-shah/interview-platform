@@ -1,14 +1,18 @@
 nav {
   display: flex;
-  margin: 10px 2%;
+  padding: 0px 2%;
   align-items: center;
   justify-content: space-between;
   z-index: 100;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-bottom: 2px solid rgb(40, 40, 40);
+  backdrop-filter: blur(10px);
 }
+
 nav .brand {
   cursor: pointer;
 }
@@ -17,12 +21,36 @@ nav .brand h1 {
   color: var(--c-accent);
 }
 
-nav .auth {
+nav * {
   display: flex;
   gap: 30px;
 }
-nav .auth .login {
+nav .auth .login,
+.join-session-btn {
   background-color: transparent;
   border: none;
   color: var(--c-foreground);
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.profile-icon {
+  background-color: var(--c-accent);
+  color: var(--c-background);
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-btn:hover .profile-text {
+  text-decoration: underline;
 }

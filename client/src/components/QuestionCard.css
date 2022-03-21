@@ -1,0 +1,31 @@
+.question-card {
+  border-radius: 5px;
+  background-color: var(--c-alt-bg);
+  /* border: 2px solid white; */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  cursor: pointer;
+}
+
+.question-card > h2 {
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+.question-card > .tag {
+  display: flex;
+  gap: 5px;
+  color: var(--c-accent);
+  font-weight: bold;
+  width: fit-content;
+}
+
+.question-card:hover h2 {
+  text-decoration: underline;
+}
+
+.question-card > .company-tag:hover {
+  text-decoration: underline;
+}

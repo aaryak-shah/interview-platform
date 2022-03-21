@@ -29,7 +29,7 @@ router.post("/new", async (req, res) => {
         company: ObjectId(company),
       })
       token = jwt.createAccessToken({ uid: newUser._id, role: newUser.role })
-      res.cookie("token", token)
+      res.cookie("token", token, { sameSite: "lax" })
       res.status(200).json({
         data: token,
         error: null,
@@ -57,7 +57,7 @@ router.post("/login", async (req, res) => {
       return
     }
     token = jwt.createAccessToken({ uid: user._id, role: user.role })
-    res.cookie("token", token)
+    res.cookie("token", token, { sameSite: "lax" })
     res.status(200).json({
       data: token,
       error: null,

@@ -1,0 +1,12 @@
+.dashboard {
+  margin-top: 100px;
+  margin-inline: 5%;
+  text-align: start;
+}
+
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+  margin-block: 30px;
+}

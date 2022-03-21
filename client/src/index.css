@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 :root {
   --c-accent: #7bfffb;
@@ -7,6 +8,7 @@
   --c-title: white;
   --c-subtitle: gray;
   --c-text: lightgray;
+  --c-alt-bg: #252525;
 
   color: var(--c-text);
 }
@@ -23,6 +25,7 @@ button {
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box; /* Firefox, other Gecko */
   box-sizing: border-box; /* Opera/IE 8+ */
+  font-family: "Roboto", sans-serif;
 }
 
 button:hover {
@@ -33,10 +36,11 @@ button:hover {
 
 body {
   margin: 0;
-  font-family: "Roboto Mono", monospace;
+  font-family: "Roboto";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--c-background);
+  scroll-behavior: smooth;
 }
 
 h1,
@@ -47,6 +51,12 @@ h5,
 h6 {
   color: var(--c-title);
   font-weight: bold;
+  font-family: "Roboto Mono", monospace;
+}
+
+sub {
+  font-family: "Roboto Mono", monospace;
+  font-size: 12pt;
 }
 
 input {
@@ -55,4 +65,21 @@ input {
   border-radius: 5px;
   padding: 10px;
   color: var(--c-foreground);
+}
+
+.difficulty-tag {
+  font-weight: bold;
+  font-style: italic;
+  text-transform: capitalize;
+}
+.difficulty-hard {
+  color: orangered;
+}
+
+.difficulty-medium {
+  color: orange;
+}
+
+.difficulty-easy {
+  color: greenyellow;
 }

@@ -45,7 +45,8 @@ router.get("/view/:qid", async (req, res) => {
   try {
     let token = req.cookies["token"]
     const { uid, role } = jwt.verify(token)
-    let q = Question.findById(req.params.qid)
+    let q = await Question.findById(req.params.qid)
+    console.log("qid: ", req.params.qid, q)
     if (!q) {
       res.status(400).json({ data: null, error: "Question not found" })
       return
@@ -56,6 +57,7 @@ router.get("/view/:qid", async (req, res) => {
       res.status(401).json({ data: null, error: "Not authorized" })
     }
   } catch (e) {
+    console.error(e)
     res.status(500).json({ data: null, error: "Internal server error" })
   }
 })

@@ -25,6 +25,12 @@ const QuestionsSchema = new mongoose.Schema(
       ref: "Companies",
       required: true,
     },
+    attempts: {
+      type: Number,
+    },
+    difficulty: {
+      type: String,
+    },
   },
   {
     timestamps: true,
