@@ -32,6 +32,8 @@ import "ace-builds/src-noconflict/theme-xcode"
 import ReactMarkdown from "react-markdown"
 import { executeCode } from "../../requests/code"
 
+import remarkGfm from "remark-gfm"
+
 function Question({ questionData }) {
   const languageList = {
     py: "python",
@@ -121,7 +123,10 @@ function Question({ questionData }) {
               <span className="difficulty-tag difficulty-easy">easy</span>
             </div>
             <div className="question-description">
-              <ReactMarkdown children={questionData.bodyHtml} />
+              <ReactMarkdown
+                children={questionData.bodyHtml}
+                remarkPlugins={[remarkGfm]}
+              />
             </div>
           </section>
           <section className="editor code-editor">

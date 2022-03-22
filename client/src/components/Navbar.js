@@ -2,10 +2,19 @@ import React from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import "./Navbar.css"
+import StartSessionModal from "../pages/SessionModal/StartSessionModal"
 
 function Navbar({ auth = false }) {
   const navigate = useNavigate()
   const user = useSelector((state) => state.user)
+
+  function launchModal() {
+    document.querySelector(".modal-overlay").classList.add("show-modal")
+    console.log(
+      "opening modal",
+      document.querySelector(".modal-overlay").classList
+    )
+  }
 
   return (
     <nav>
@@ -15,7 +24,7 @@ function Navbar({ auth = false }) {
       <span className="items">
         {auth ? (
           <div className="profile">
-            <button className="join-session-btn">
+            <button className="join-session-btn" onClick={launchModal}>
               {user.role === "candidate" ? "Join Session" : "Start Session"}
             </button>
             <div className="profile-btn">

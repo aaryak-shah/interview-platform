@@ -16,6 +16,10 @@ const SessionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    assignedQuestion: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Questions",
+    },
   },
   {
     timestamps: true,

@@ -9,6 +9,8 @@ import Home from "./routes/Home"
 import Error from "./pages/Error/Error"
 import publicRoutes from "./routes/config/public"
 import protectedRoutes from "./routes/config/protected"
+import StartSessionModal from "./pages/SessionModal/StartSessionModal"
+import JoinSessionModal from "./pages/SessionModal/JoinSessionModal"
 
 function App() {
   const user = useSelector((state) => state.user)
@@ -27,6 +29,11 @@ function App() {
 
   return (
     <div className="App">
+      {user.role === "interviewer" ? (
+        <StartSessionModal />
+      ) : (
+        <JoinSessionModal />
+      )}
       <Navbar auth={user.auth}></Navbar>
       <main>
         <Routes>

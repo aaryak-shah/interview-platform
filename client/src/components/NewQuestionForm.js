@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown"
 import { useState } from "react"
 import "./NewQuestionForm.css"
 import { createNewQuestion } from "../requests/question"
+import remarkGfm from "remark-gfm"
 
 const mdSample = `Markdown Example:
 
@@ -139,7 +140,7 @@ function NewQuestionForm() {
       <section className="question-preview">
         <h1>[PREVIEW] {title}</h1>
         <div className="bodyHtml">
-          <ReactMarkdown children={bodyHtml} />
+          <ReactMarkdown children={bodyHtml} remarkPlugins={[remarkGfm]} />
         </div>
       </section>
     </div>

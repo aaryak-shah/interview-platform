@@ -43,7 +43,7 @@ function Dashboard() {
           <sub>Here's some questions you can practice</sub>
           <section className="questions-grid">
             {questions.map((q) => {
-              return <QuestionCard qid={q._id} />
+              return <QuestionCard key={q._id} qid={q._id} />
             })}
           </section>
         </>
