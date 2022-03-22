@@ -30,14 +30,48 @@ import "ace-builds/src-noconflict/theme-tomorrow_night_blue"
 import "ace-builds/src-noconflict/theme-twilight"
 import "ace-builds/src-noconflict/theme-xcode"
 import ReactMarkdown from "react-markdown"
+import { executeCode } from "../../requests/code"
 
 function Question({ questionData }) {
+  const languageList = {
+    py: "python",
+    cpp: "c_cpp",
+    js: "javascript",
+  }
+  const languageDefaults = {
+    py: 'print("Hello Python")',
+    cpp: '#include <iostream>\nusing namespace std;\n\nint main()\n{\n    cout << "Hello C++";\n    return 0;\n}\n',
+    js: 'console.log("Hello Javascript");',
+  }
+  const theme = "tomorrow_night_bright"
   let [questionBody, setQuestionBody] = useState("")
-  let [code, setCode] = useState("")
+  let [code, setCode] = useState(languageDefaults["py"])
   let [input, setInput] = useState("")
   let [output, setOutput] = useState("")
   let [languageMode, setLanguageMode] = useState("python")
-  const theme = "tomorrow_night_bright"
+  let [languageExtension, setLanguageExtension] = useState("py")
+
+  function changeLanguage(l) {
+    setLanguageExtension(l)
+    setCode(languageDefaults[l])
+  }
+
+  function runCode() {
+    executeCode({
+      language: languageExtension,
+      input,
+      code,
+    })
+      .then((res) => {
+        console.log(res)
+        if (res.output) setOutput(res.output)
+        else if (res.stderr) setOutput(res.stderr)
+        else setOutput("")
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
 
   return (
     <>
@@ -46,7 +80,10 @@ function Question({ questionData }) {
           <section className="controls">
             <div className="controls-left">
               <h4>Programming Language: </h4>
-              <select name="language" id="language">
+              <select
+                name="language"
+                id="language"
+                onChange={(e) => changeLanguage(e.target.value)}>
                 <option name="language" value="py">
                   Python
                 </option>
@@ -60,7 +97,9 @@ function Question({ questionData }) {
             </div>
             <div className="controls-right">
               <button className="reset-code">Reset</button>
-              <button className="run-code">Run Code</button>
+              <button className="run-code" onClick={runCode}>
+                Run Code
+              </button>
             </div>
           </section>
           <section className="question-details">
