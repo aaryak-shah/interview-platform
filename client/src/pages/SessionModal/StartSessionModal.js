@@ -1,19 +1,24 @@
 import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Modal from "../../components/Modal"
 import { startSession } from "../../requests/interview"
 import "./StartSessionModal.css"
 
 function StartSessionModalContent() {
   let [candidateEmail, setCandidateEmail] = useState("")
-
+  const navigate = useNavigate()
   function submit(e) {
     e.preventDefault()
     startSession({ candidateEmail })
       .then((res) => {
         console.log(res.data)
+        document.querySelector(".modal-overlay").classList.remove("show-modal")
+        navigate(`/session/${res.data.sessionName}`)
       })
       .catch((err) => {
         console.error(err)
+        alert(`An error occured: ${err}`)
+        document.querySelector(".modal-overlay").classList.remove("show-modal")
       })
   }
 

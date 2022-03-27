@@ -2,19 +2,8 @@ import React, { useEffect, useState } from "react"
 import { MdWork, MdCalendarToday } from "react-icons/md"
 import { useNavigate } from "react-router-dom"
 import { fetchQuestionInfo } from "../requests/question"
+import formatDate from "../utils"
 import "./QuestionCard.css"
-
-function padTo2Digits(num) {
-  return num.toString().padStart(2, "0")
-}
-
-function formatDate(date) {
-  return [
-    padTo2Digits(date.getDate()),
-    padTo2Digits(date.getMonth() + 1),
-    date.getFullYear(),
-  ].join("/")
-}
 
 function QuestionCard({ qid }) {
   const navigate = useNavigate()
@@ -46,7 +35,7 @@ function QuestionCard({ qid }) {
         <span>{formatDate(new Date(questionData.createdAt))}</span>
       </div>
       <div className="">
-        {questionData.attemps ? questionData.attemps : 0} attempts &bull;{" "}
+        {questionData.attempts ? questionData.attempts : 0} attempts &bull;{" "}
         <span
           className={`difficulty-tag difficulty-${
             questionData.difficulty ? questionData.difficulty : "medium"

@@ -33,6 +33,7 @@ import ReactMarkdown from "react-markdown"
 import { executeCode } from "../../requests/code"
 
 import remarkGfm from "remark-gfm"
+import formatDate from "../../utils"
 
 function Question({ questionData }) {
   const languageList = {
@@ -58,11 +59,19 @@ function Question({ questionData }) {
     setCode(languageDefaults[l])
   }
 
+  //code run on press of SHIFT+F4
+  useEffect(() => {
+    document.onkeydown = (keyDownEvent) => {
+      if (keyDownEvent.shiftKey && keyDownEvent.key === "F4") runCode()
+    }
+  })
+
   function runCode() {
     executeCode({
       language: languageExtension,
       input,
       code,
+      question: questionData._id,
     })
       .then((res) => {
         console.log(res)
@@ -100,7 +109,7 @@ function Question({ questionData }) {
             <div className="controls-right">
               <button className="reset-code">Reset</button>
               <button className="run-code" onClick={runCode}>
-                Run Code
+                Run Code (Shift+F4)
               </button>
             </div>
           </section>
@@ -110,17 +119,24 @@ function Question({ questionData }) {
               <span className="icon">
                 <MdWork />
               </span>
-              <span>Google</span>
+              <span>{questionData.company?.name}</span>
             </div>
             <div className="tag">
               <span className="icon">
                 <MdCalendarToday />
               </span>
-              <span>25th Aug, 2021</span>
+              <span>{formatDate(new Date(questionData.createdAt))}</span>
             </div>
             <div className="">
-              25k Attempts &bull;{" "}
-              <span className="difficulty-tag difficulty-easy">easy</span>
+              {console.log(questionData)}
+              {questionData.attempts ? questionData.attempts : 0} attempts
+              &bull;{" "}
+              <span
+                className={`difficulty-tag difficulty-${
+                  questionData.difficulty ? questionData.difficulty : "medium"
+                }`}>
+                {questionData.difficulty ? questionData.difficulty : "medium"}
+              </span>
             </div>
             <div className="question-description">
               <ReactMarkdown

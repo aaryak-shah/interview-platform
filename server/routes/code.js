@@ -1,12 +1,13 @@
 const express = require("express")
 const CONSTANTS = require("../constants")
-const User = require("../db/schema/user")
 const router = express.Router()
 const jwt = require("../utils/jwt")
 const fs = require("fs")
 const pythonHandler = require("../languages/python")
 const cppHandler = require("../languages/cpp")
 const jsHandler = require("../languages/javascript")
+const User = require("../db/schema/user")
+const Question = require("../db/schema/question")
 
 router.post("/", async (req, res) => {
   try {
@@ -15,16 +16,40 @@ router.post("/", async (req, res) => {
       language, // specifies programming language, doubles as file extension for storage/code.xyz file
       input, // user's input string to be stored in storage/input
       code, // user's code string to be stored in storage/code.xyz
+      question: qid,
     } = req.body
 
     const token = req.cookies["token"]
     const { uid, role } = jwt.verify(token)
+    let user
     try {
-      await User.findById(uid)
+      user = await User.findById(uid)
     } catch (e) {
       console.error(e)
       res.status(400).json({ data: null, error: "User does not exist" })
+      return
     }
+    try {
+      console.log(qid)
+      if (qid) {
+        console.log("qn exists")
+        if (!user.questions.includes(qid)) {
+          console.log("update for user")
+          await User.updateOne({ _id: uid }, { $push: { questions: qid } })
+        }
+        if (!(await Question.findById(qid)).attemptedBy.includes(uid)) {
+          console.log("update for qn")
+          await Question.updateOne(
+            { _id: qid },
+            { $push: { attemptedBy: uid }, $inc: { attempts: 1 } }
+          )
+        }
+      }
+    } catch (e) {
+      res.status(500).json({ data: null, error: "Internal server error" })
+      return
+    }
+
     const userFilePath = CONSTANTS.USERSTORAGEPATH + uid
 
     // storage for input

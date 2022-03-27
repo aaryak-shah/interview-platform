@@ -47,7 +47,7 @@ router.get("/view/:qid", async (req, res) => {
     let token = req.cookies["token"]
     const { uid, role } = jwt.verify(token)
     let q = await Question.findById(req.params.qid).populate("company")
-    console.log("qid: ", req.params.qid, q)
+    // console.log("qid: ", req.params.qid, q)
     if (!q) {
       res.status(400).json({ data: null, error: "Question not found" })
       return

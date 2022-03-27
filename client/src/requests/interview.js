@@ -13,6 +13,19 @@ export const startSession = async (data) => {
   }
 }
 
+export const sessionCheck = async (sid) => {
+  const url = `/session/check/${sid}`
+  try {
+    const res = await axios.get(url)
+    return res.data
+  } catch (error) {
+    console.error(error)
+    throw error.response
+      ? error.response.data
+      : { data: null, error: "Not Connected to server" }
+  }
+}
+
 // export const joinSession = async (data) => {
 //   const url = `/session/new`
 //   try {

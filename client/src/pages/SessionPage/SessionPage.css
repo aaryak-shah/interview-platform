@@ -1,0 +1,37 @@
+.control-panel {
+  position: fixed;
+  top: 100px;
+  left: 20px;
+  background-color: black;
+  border-radius: 6px;
+  display: flex;
+  gap: 5px;
+  padding: 5px;
+}
+
+.control-panel button {
+  aspect-ratio: 1;
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 15pt;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-panel button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.control-panel-min {
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  height: 180px;
+  top: auto;
+  bottom: 30px;
+  left: 360px;
+  box-sizing: border-box;
+}

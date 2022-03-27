@@ -29,6 +29,9 @@ const QuestionsSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    attemptedBy: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
+    },
     difficulty: {
       type: String,
     },

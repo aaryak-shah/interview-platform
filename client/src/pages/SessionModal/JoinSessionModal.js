@@ -1,12 +1,15 @@
 import React, { useState } from "react"
 import Modal from "../../components/Modal"
 import "./JoinSessionModal.css"
+import { useNavigate } from "react-router-dom"
 
 function JoinSessionModalContent() {
   let [sessionCode, setSessionCode] = useState("")
-
+  const navigate = useNavigate()
   function submit(e) {
     e.preventDefault()
+    document.querySelector(".modal-overlay").classList.remove("show-modal")
+    navigate(`/session/${sessionCode}`)
   }
 
   return (
