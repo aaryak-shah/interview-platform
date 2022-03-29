@@ -1,6 +1,6 @@
-const { socketEvents } = require("./socketEvents");
-const CONSTANTS = require("../constants.js");
-const SOCKET = CONSTANTS.SOCKET;
+const { socketEvents } = require("./socketEvents/index")
+const CONSTANTS = require("../constants.js")
+const SOCKET = CONSTANTS.SOCKET
 
 module.exports.initializer = (socketio, server) => {
   const io = socketio(server, {
@@ -9,10 +9,12 @@ module.exports.initializer = (socketio, server) => {
       methods: SOCKET.METHODS,
       credentials: true,
     },
-  });
+  })
 
   // socket listens to connection event
-  io.on("connection", (client) => socketEvents(client, io));
+  io.on("connection", (client) => {
+    socketEvents(client, io)
+  })
 
-  return io;
-};
+  return io
+}

@@ -21,6 +21,6 @@
     "mongoose": "^6.2.1",
     "nanoid": "^3.3.1",
     "nodemon": "^2.0.15",
-    "socketio": "^1.0.0"
+    "socket.io": "^3.1.2"
   }
 }

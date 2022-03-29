@@ -2,7 +2,6 @@ import React from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import "./Navbar.css"
-import StartSessionModal from "../pages/SessionModal/StartSessionModal"
 
 function Navbar({ auth = false }) {
   const navigate = useNavigate()
@@ -10,10 +9,6 @@ function Navbar({ auth = false }) {
 
   function launchModal() {
     document.querySelector(".modal-overlay").classList.add("show-modal")
-    console.log(
-      "opening modal",
-      document.querySelector(".modal-overlay").classList
-    )
   }
 
   return (

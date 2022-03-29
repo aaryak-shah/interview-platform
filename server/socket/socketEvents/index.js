@@ -1,28 +1,36 @@
 module.exports.socketEvents = (client, io) => {
+  console.log("socket events")
   // when client emits a 'hostSession' event
   client.on("hostSession", (data) => {
-    const { channelID } = data;
-
+    const { sessionCode } = data
+    console.log(`session ${sessionCode} hosted`)
     // adds the client's ID to the room
-    client.join(channelID);
-  });
+    client.join(sessionCode)
+  })
 
   // when client emits a 'joinSession' event
   client.on("joinSession", (data) => {
-    const { channelID } = data;
+    const { sessionCode } = data
+    console.log(`session ${sessionCode} joined`)
 
     // adds the client's ID to the room
-    client.join(channelID);
+    client.join(sessionCode)
 
     // server emits initialLoad event to this new client in the room
-    io.to(channelID).emit("initialLoad", {});
-  });
+    io.to(sessionCode).emit("initialLoad", {})
+  })
+
+  client.on("updateQuestion", (data) => {
+    const { sessionCode, questionData } = data
+    io.to(sessionCode).emit("receiveNewQuestion", questionData)
+  })
 
   // when client emits a 'realTime' event
-  client.on("realtime", (data) => {
-    const { channelID, mode, input, output, code } = data;
+  client.on("liveTyping", (data) => {
+    const { sessionCode, input, output, code } = data
+    console.log(`session ${sessionCode} was live typed`)
 
     // server emits 'realReceive' event to this client
-    io.to(channelID).emit("realReceive", { mode, input, code, output });
-  });
-};
+    io.to(sessionCode).emit("receiveLiveTyping", { input, code, output })
+  })
+}

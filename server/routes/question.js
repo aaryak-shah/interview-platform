@@ -3,6 +3,7 @@ const Question = require("../db/schema/question")
 const express = require("express")
 const router = express.Router()
 const jwt = require("../utils/jwt")
+const Session = require("../db/schema/session")
 
 router.post("/new", async (req, res) => {
   const token = req.cookies["token"]
@@ -53,6 +54,29 @@ router.get("/view/:qid", async (req, res) => {
       return
     }
     if (q.author == uid || q.public) {
+      res.status(200).json({ data: q, error: null })
+    } else {
+      res.status(401).json({ data: null, error: "Not authorized" })
+    }
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ data: null, error: "Internal server error" })
+  }
+})
+
+router.get("/view/assigned/:sid/:qid", async (req, res) => {
+  try {
+    let token = req.cookies["token"]
+    const { uid, role } = jwt.verify(token)
+    const { sid, qid } = req.params
+    let q = await Question.findById(qid).populate("company")
+    // console.log("qid: ", req.params.qid, q)
+    if (!q) {
+      res.status(400).json({ data: null, error: "Question not found" })
+      return
+    }
+    let s = await Session.findById(sid)
+    if (s.candidate == uid && s.assignedQuestion == qid) {
       res.status(200).json({ data: q, error: null })
     } else {
       res.status(401).json({ data: null, error: "Not authorized" })

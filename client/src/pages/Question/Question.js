@@ -2,40 +2,23 @@ import React, { useEffect, useState } from "react"
 import { MdWork, MdCalendarToday } from "react-icons/md"
 import "./Question.css"
 import AceEditor from "react-ace"
-
+import { useSelector } from "react-redux"
 import "ace-builds/src-noconflict/mode-python"
 import "ace-builds/src-noconflict/mode-c_cpp"
 import "ace-builds/src-noconflict/mode-javascript"
 import "ace-builds/src-noconflict/ext-language_tools"
-import "ace-builds/src-noconflict/theme-ambiance"
-import "ace-builds/src-noconflict/theme-chaos"
-import "ace-builds/src-noconflict/theme-chrome"
-import "ace-builds/src-noconflict/theme-clouds"
-import "ace-builds/src-noconflict/theme-clouds_midnight"
-import "ace-builds/src-noconflict/theme-cobalt"
-import "ace-builds/src-noconflict/theme-crimson_editor"
-import "ace-builds/src-noconflict/theme-dawn"
-import "ace-builds/src-noconflict/theme-dracula"
-import "ace-builds/src-noconflict/theme-eclipse"
-import "ace-builds/src-noconflict/theme-github"
-import "ace-builds/src-noconflict/theme-gob"
-import "ace-builds/src-noconflict/theme-mono_industrial"
-import "ace-builds/src-noconflict/theme-monokai"
-import "ace-builds/src-noconflict/theme-terminal"
-import "ace-builds/src-noconflict/theme-textmate"
-import "ace-builds/src-noconflict/theme-tomorrow"
-import "ace-builds/src-noconflict/theme-tomorrow_night"
 import "ace-builds/src-noconflict/theme-tomorrow_night_bright"
-import "ace-builds/src-noconflict/theme-tomorrow_night_blue"
-import "ace-builds/src-noconflict/theme-twilight"
-import "ace-builds/src-noconflict/theme-xcode"
 import ReactMarkdown from "react-markdown"
 import { executeCode } from "../../requests/code"
 
 import remarkGfm from "remark-gfm"
 import formatDate from "../../utils"
 
-function Question({ questionData }) {
+import openSocket from "socket.io-client"
+
+const socket = openSocket("http://localhost:9000")
+
+function Question({ questionData, mode = "practice", sessionCode }) {
   const languageList = {
     py: "python",
     cpp: "c_cpp",
@@ -47,17 +30,23 @@ function Question({ questionData }) {
     js: 'console.log("Hello Javascript");',
   }
   const theme = "tomorrow_night_bright"
-  let [questionBody, setQuestionBody] = useState("")
+  let [qData, setQData] = useState(questionData)
   let [code, setCode] = useState(languageDefaults["py"])
   let [input, setInput] = useState("")
   let [output, setOutput] = useState("")
   let [languageMode, setLanguageMode] = useState("python")
   let [languageExtension, setLanguageExtension] = useState("py")
 
+  let user = useSelector((state) => state.user)
+
   function changeLanguage(l) {
     setLanguageExtension(l)
     setCode(languageDefaults[l])
   }
+
+  useEffect(() => {
+    setQData(questionData)
+  }, [questionData])
 
   //code run on press of SHIFT+F4
   useEffect(() => {
@@ -66,12 +55,44 @@ function Question({ questionData }) {
     }
   })
 
+  useEffect(() => {
+    if (mode === "live") {
+      if (user.role === "interviewer") {
+        console.log("hosting")
+        socket.emit("hostSession", { sessionCode })
+      } else {
+        console.log("joining")
+        socket.emit("joinSession", { sessionCode })
+      }
+      socket.on("receiveLiveTyping", (data) => {
+        setCode(data.code)
+        setInput(data.input)
+        setOutput(data.output)
+      })
+      // if (user.role === "candidate") {
+      socket.on("receiveNewQuestion", (data) => {
+        console.log(data)
+        setQData(data)
+      })
+      // }
+    }
+  }, [mode, sessionCode])
+
+  useEffect(() => {
+    if (mode === "live") {
+      socket.emit("liveTyping", { sessionCode, mode, input, output, code })
+      socket.on("initialLoad", () => {
+        socket.emit("liveTyping", { sessionCode, mode, input, output, code })
+      })
+    }
+  }, [mode, code, input, output, sessionCode])
+
   function runCode() {
     executeCode({
       language: languageExtension,
       input,
       code,
-      question: questionData._id,
+      question: qData._id,
     })
       .then((res) => {
         console.log(res)
@@ -86,7 +107,7 @@ function Question({ questionData }) {
 
   return (
     <>
-      {questionData ? (
+      {qData ? (
         <div className="question-page">
           <section className="controls">
             <div className="controls-left">
@@ -114,33 +135,31 @@ function Question({ questionData }) {
             </div>
           </section>
           <section className="question-details">
-            <h1>{questionData.title}</h1>
+            <h1>{qData.title}</h1>
             <div className="tag company-tag">
               <span className="icon">
                 <MdWork />
               </span>
-              <span>{questionData.company?.name}</span>
+              <span>{qData.company?.name}</span>
             </div>
             <div className="tag">
               <span className="icon">
                 <MdCalendarToday />
               </span>
-              <span>{formatDate(new Date(questionData.createdAt))}</span>
+              <span>{formatDate(new Date(qData.createdAt))}</span>
             </div>
             <div className="">
-              {console.log(questionData)}
-              {questionData.attempts ? questionData.attempts : 0} attempts
-              &bull;{" "}
+              {qData.attempts ? qData.attempts : 0} attempts &bull;{" "}
               <span
                 className={`difficulty-tag difficulty-${
-                  questionData.difficulty ? questionData.difficulty : "medium"
+                  qData.difficulty ? qData.difficulty : "medium"
                 }`}>
-                {questionData.difficulty ? questionData.difficulty : "medium"}
+                {qData.difficulty ? qData.difficulty : "medium"}
               </span>
             </div>
             <div className="question-description">
               <ReactMarkdown
-                children={questionData.bodyHtml}
+                children={qData.bodyHtml}
                 remarkPlugins={[remarkGfm]}
               />
             </div>

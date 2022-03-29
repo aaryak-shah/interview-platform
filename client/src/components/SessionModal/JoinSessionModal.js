@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import Modal from "../../components/Modal"
+import Modal from "../Modal"
 import "./JoinSessionModal.css"
 import { useNavigate } from "react-router-dom"
 

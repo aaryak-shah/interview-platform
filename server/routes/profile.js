@@ -20,6 +20,23 @@ router.get("/questions", async (req, res) => {
   }
 })
 
+router.get("/companyQuestions", async (req, res) => {
+  try {
+    token = req.cookies["token"]
+    const { uid, role } = jwt.verify(token)
+    let u = await User.findById(uid)
+    if (u) {
+      let questions = await Question.find({ company: u.company })
+      res.status(200).json({ data: questions, error: null })
+    } else {
+      res.status(401).json({ data: null, error: "Not authorized" })
+    }
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ data: null, error: "Internal server error" })
+  }
+})
+
 router.get("/info", async (req, res) => {
   try {
     token = req.cookies["token"]

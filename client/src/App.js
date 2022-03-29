@@ -9,8 +9,8 @@ import Home from "./routes/Home"
 import Error from "./pages/Error/Error"
 import publicRoutes from "./routes/config/public"
 import protectedRoutes from "./routes/config/protected"
-import StartSessionModal from "./pages/SessionModal/StartSessionModal"
-import JoinSessionModal from "./pages/SessionModal/JoinSessionModal"
+import StartSessionModal from "./components/SessionModal/StartSessionModal"
+import JoinSessionModal from "./components/SessionModal/JoinSessionModal"
 
 function App() {
   const user = useSelector((state) => state.user)

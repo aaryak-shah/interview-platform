@@ -9,7 +9,6 @@ const { createHash, verifyHash } = require("../utils/hash")
 router.post("/new", async (req, res) => {
   try {
     let { name, email, password, role, company } = req.body
-    console.log(req.body)
     let u = await User.findOne({ email })
     if (u) {
       res.status(400).json({ data: null, error: "User already exists" })

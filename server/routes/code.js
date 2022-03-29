@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
       return
     }
     try {
-      console.log(qid)
+      console.log("qid is", qid)
       if (qid) {
         console.log("qn exists")
         if (!user.questions.includes(qid)) {

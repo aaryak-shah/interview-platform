@@ -4,8 +4,9 @@ import "./SessionPage.css"
 import VC from "../VC/VC"
 import { MdAssignment, MdCode, MdVideocam, MdShare } from "react-icons/md"
 import Question from "../Question/Question"
+import AssignQuestionModal from "../../components/AssignQuestionModal/AssignQuestionModal"
 
-function SessionPage({ sid }) {
+function SessionPage({ sid, questionData = {} }) {
   const user = useSelector((state) => state.user)
   const [viewMode, setViewMode] = useState("vc")
 
@@ -29,11 +30,19 @@ function SessionPage({ sid }) {
     }
   }
 
+  function launchAssignmentModal() {
+    document.querySelector(".modal-purpose-assign").classList.add("show-modal")
+  }
+
   return (
-    <div>
+    <div className="session-page">
+      <AssignQuestionModal sessionCode={sid} />
       <div className="control-panel">
         {user.role === "interviewer" ? (
-          <button className="assign-question" title="Assign A Question">
+          <button
+            className="assign-question"
+            title="Assign A Question"
+            onClick={launchAssignmentModal}>
             <MdAssignment />
           </button>
         ) : null}
@@ -47,7 +56,9 @@ function SessionPage({ sid }) {
           <MdShare />
         </button>
       </div>
-      {viewMode === "code" ? <Question questionData={{}} /> : null}
+      <div className={`question-container question-container-${viewMode}`}>
+        <Question questionData={questionData} mode="live" sessionCode={sid} />
+      </div>
       <VC sid={sid} />
     </div>
   )

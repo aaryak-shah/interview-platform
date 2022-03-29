@@ -14,7 +14,9 @@ router.get("/check/:sid", async (req, res) => {
     let u = await User.findById(uid)
     let session
     if (sid) {
-      session = await Session.findOne({ sessionName: sid })
+      session = await Session.findOne({ sessionName: sid }).populate(
+        "assignedQuestion"
+      )
     } else {
       res.status(404).json({ data: null, error: "Session not found" })
       return
@@ -55,6 +57,35 @@ router.post("/new", async (req, res) => {
           candidate: candidate._id,
           sessionName: "cv-session-" + nanoid(8),
         })
+        res.status(200).json({ data: session, error: null })
+      }
+    } else {
+      console.error(e)
+      res.status(400).json({ data: null, error: "User not found" })
+    }
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ data: null, error: "Internal server error" })
+  }
+})
+
+router.post("/assign", async (req, res) => {
+  const token = req.cookies["token"]
+  try {
+    const { uid, role } = jwt.verify(token)
+    const { sid, qid } = req.body
+    let u = await User.findById(uid)
+    if (u) {
+      if (role != "interviewer") {
+        console.error("Error: unauthorized call to session creation.")
+        res.status(401).json({ data: null, error: "Not authorized" })
+      } else {
+        session = await Session.findOneAndUpdate(
+          { sessionName: sid },
+          {
+            assignedQuestion: qid,
+          }
+        )
         res.status(200).json({ data: session, error: null })
       }
     } else {
