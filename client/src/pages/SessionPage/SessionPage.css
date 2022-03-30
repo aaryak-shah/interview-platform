@@ -10,6 +10,7 @@
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  z-index: 1000;
 }
 
 .control-panel button {
@@ -41,4 +42,40 @@
 
 .question-container-vc {
   display: none;
+}
+
+.cheating-notif {
+  display: none;
+}
+
+.session-page-notif-true .question-page {
+  height: calc(100vh - 140px);
+  padding-top: 0;
+}
+
+.session-page-notif-true .jitsi-container {
+  height: calc(100vh - 150px);
+  margin-top: 0;
+}
+
+.session-page-notif-true .cheating-notif {
+  display: block;
+  background-color: darkred;
+  color: white;
+  text-align: center;
+  width: 100%;
+  padding-top: 90px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.session-page-notif-true .jitsi-container-min {
+  height: 180px;
+  width: 320px;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }

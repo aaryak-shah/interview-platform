@@ -44,7 +44,7 @@ function VC({ sid }) {
       })
       .catch((e) => {
         console.log(e)
-        window.location.replace(`/`)
+        // window.location.replace(`/`)
       })
     return () => {
       jitsi?.dispose?.()

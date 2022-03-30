@@ -69,14 +69,12 @@ function Question({ questionData, mode = "practice", sessionCode }) {
         setInput(data.input)
         setOutput(data.output)
       })
-      // if (user.role === "candidate") {
       socket.on("receiveNewQuestion", (data) => {
         console.log(data)
         setQData(data)
       })
-      // }
     }
-  }, [mode, sessionCode])
+  }, [mode, sessionCode, user])
 
   useEffect(() => {
     if (mode === "live") {
@@ -86,6 +84,25 @@ function Question({ questionData, mode = "practice", sessionCode }) {
       })
     }
   }, [mode, code, input, output, sessionCode])
+
+  useEffect(() => {
+    if (user.role === "interviewer") {
+      socket.on("receiveGainFocusNotification", (data) => {
+        console.log("receiveGainFocusNotification")
+        // setCheatingNotif(false)
+        document
+          .querySelector(".session-page")
+          .classList.remove("session-page-notif-true")
+      })
+      socket.on("receiveLoseFocusNotification", (data) => {
+        console.log("receiveLoseFocusNotification")
+        // setCheatingNotif(true)
+        document
+          .querySelector(".session-page")
+          .classList.add("session-page-notif-true")
+      })
+    }
+  })
 
   function runCode() {
     executeCode({

@@ -1,9 +1,7 @@
 module.exports.socketEvents = (client, io) => {
-  console.log("socket events")
   // when client emits a 'hostSession' event
   client.on("hostSession", (data) => {
     const { sessionCode } = data
-    console.log(`session ${sessionCode} hosted`)
     // adds the client's ID to the room
     client.join(sessionCode)
   })
@@ -11,7 +9,6 @@ module.exports.socketEvents = (client, io) => {
   // when client emits a 'joinSession' event
   client.on("joinSession", (data) => {
     const { sessionCode } = data
-    console.log(`session ${sessionCode} joined`)
 
     // adds the client's ID to the room
     client.join(sessionCode)
@@ -28,9 +25,23 @@ module.exports.socketEvents = (client, io) => {
   // when client emits a 'realTime' event
   client.on("liveTyping", (data) => {
     const { sessionCode, input, output, code } = data
-    console.log(`session ${sessionCode} was live typed`)
 
     // server emits 'realReceive' event to this client
     io.to(sessionCode).emit("receiveLiveTyping", { input, code, output })
+  })
+
+  // when client emits a 'realTime' event
+  client.on("candidateLoseFocus", (data) => {
+    const { sessionCode } = data
+
+    // server emits 'realReceive' event to this client
+    io.to(sessionCode).emit("receiveLoseFocusNotification", { sessionCode })
+  })
+
+  client.on("candidateGainFocus", (data) => {
+    const { sessionCode } = data
+
+    // server emits 'realReceive' event to this client
+    io.to(sessionCode).emit("receiveGainFocusNotification", { sessionCode })
   })
 }
