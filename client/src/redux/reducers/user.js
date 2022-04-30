@@ -8,6 +8,7 @@ const user = (state = intitialState, action) => {
         name: action.payload.name,
         email: action.payload.email,
         role: action.payload.role,
+        company: action.payload.company.name,
       }
     case "UNSET_USER_AUTHENTICATION":
       return { auth: false }

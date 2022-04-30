@@ -1,3 +1,4 @@
+import Profile from "../Profile"
 import Session from "../Session"
 import Solve from "../Solve"
 
@@ -9,6 +10,10 @@ const protectedRoutes = [
   {
     element: <Session />,
     path: "/session/:sid",
+  },
+  {
+    element: <Profile />,
+    path: "/profile",
   },
 ]
 

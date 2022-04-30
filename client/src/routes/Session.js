@@ -10,7 +10,6 @@ function Session() {
   const navigate = useNavigate()
   const { sid } = useParams()
   let [questionData, setQuestionData] = useState({})
-  const user = useSelector((state) => state.user)
 
   useEffect(() => {
     sessionCheck(sid)

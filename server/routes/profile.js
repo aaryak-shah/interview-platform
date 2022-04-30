@@ -9,7 +9,7 @@ router.get("/questions", async (req, res) => {
     token = req.cookies["token"]
     const { uid, role } = jwt.verify(token)
     if (await User.findById(uid)) {
-      let questions = await Question.find({ author: uid })
+      let questions = (await User.findById(uid).populate("questions")).questions
       res.status(200).json({ data: questions, error: null })
     } else {
       res.status(401).json({ data: null, error: "Not authorized" })
@@ -41,8 +41,9 @@ router.get("/info", async (req, res) => {
   try {
     token = req.cookies["token"]
     const { uid, role } = jwt.verify(token)
-    let user = await User.findById(uid, "-password")
+    let user = await User.findById(uid, "-password").populate("company")
     if (user) {
+      console.log("user", user)
       res.status(200).json({ data: user, error: null })
     } else {
       res.status(400).json({ data: null, error: "User not found" })

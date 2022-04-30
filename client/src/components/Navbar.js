@@ -22,7 +22,7 @@ function Navbar({ auth = false }) {
             <button className="join-session-btn" onClick={launchModal}>
               {user.role === "candidate" ? "Join Session" : "Start Session"}
             </button>
-            <div className="profile-btn">
+            <div className="profile-btn" onClick={() => navigate("/profile")}>
               <div className="profile-icon">{user.name[0]}</div>
               <div className="profile-text">Welcome, {user.name}</div>
             </div>

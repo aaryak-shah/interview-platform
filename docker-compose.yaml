@@ -26,6 +26,28 @@ services:
     # visible as executor:8080/ for other containers, but the app is hidden to the host
     volumes:
       - userdata:/storage # mounted volume, contains user generated data
+
+  mongo:
+    image: mongo
+    restart: always
+    command: mongod --auth
+    volumes:
+      - mongodbdata:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
+      ME_CONFIG_MONGODB_URL: mongodb://admin:pass@mongo:27017/
+
 volumes:
   # userdata volume common to all composed containers
   userdata:

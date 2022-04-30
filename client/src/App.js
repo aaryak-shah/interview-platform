@@ -19,6 +19,7 @@ function App() {
   useEffect(() => {
     fetchProfileInfo()
       .then((res) => {
+        console.log("user res", res.data)
         dispatch(setUser(res.data))
       })
       .catch((err) => {

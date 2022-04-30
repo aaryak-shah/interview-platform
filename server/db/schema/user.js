@@ -21,6 +21,7 @@ const UserSchema = new mongoose.Schema(
     },
     company: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "Companies",
     },
     interviews: {
       type: Number,

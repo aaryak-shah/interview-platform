@@ -1,0 +1,37 @@
+.profile-page {
+  margin-block: 100px;
+  margin-inline: 5%;
+  text-align: start;
+}
+
+.profile-info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.profile-image {
+  background-color: var(--c-accent);
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100px;
+  border-radius: 200px;
+  font-size: 40px;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-details > h3 {
+  margin: 0;
+}
+
+.your-questions {
+  margin-block: 50px;
+}
