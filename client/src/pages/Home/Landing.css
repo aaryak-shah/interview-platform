@@ -1,0 +1,47 @@
+.landing {
+  margin-block: 100px;
+  margin-inline: 2%;
+  text-align: start;
+}
+
+.hero {
+  border-radius: 10px;
+  background-color: darkcyan;
+  background: linear-gradient(to bottom right, darkcyan, var(--c-accent));
+  color: black;
+  padding: 30px;
+}
+
+.hero h2 {
+  color: black;
+  margin: 0;
+}
+
+.hero .btn-join {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.feature-items {
+  /* width: 100%; */
+  gap: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-inline: 5%;
+}
+
+.feature-item-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ft-icon {
+  color: var(--c-accent);
+  font-size: 32pt;
+}
+
+.ft-title h3 {
+  margin: 0;
+}

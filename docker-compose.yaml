@@ -30,13 +30,9 @@ services:
   mongo:
     image: mongo
     restart: always
-    command: mongod --auth
-    volumes:
-      - mongodbdata:/data/db
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pass
 
   mongo-express:
     image: mongo-express
@@ -51,4 +47,6 @@ services:
 volumes:
   # userdata volume common to all composed containers
   userdata:
+    external: true
+  mongodbdata:
     external: true

@@ -105,7 +105,12 @@ function SessionPage({ sid, questionData = {} }) {
           title={viewMode === "vc" ? "Switch To Code" : "Switch To Conference"}>
           {viewMode === "vc" ? <MdCode /> : <MdVideocam />}
         </button>
-        <button className="share-code" title="Share Session Code">
+        <button
+          className="share-code"
+          title="Share Session Code"
+          onClick={() => {
+            navigator.clipboard.writeText(sid)
+          }}>
           <MdShare />
         </button>
       </div>
