@@ -10,13 +10,14 @@ router.post("/new", async (req, res) => {
   try {
     const { uid, role } = jwt.verify(token)
     const { title, bodyHtml, public, difficulty } = req.body
+    console.log("difficulty", difficulty)
     let u = await User.findById(uid)
     if (u) {
       if (role != "interviewer") {
         console.error("Error: unauthorized call to question creation.")
         res.status(401).json({ data: null, error: "Not authorized" })
       } else {
-        user = await User.findById(uid)
+        let user = await User.findById(uid)
         company = user.company
         const q = await Question.create({
           author: uid,

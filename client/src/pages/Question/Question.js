@@ -60,15 +60,17 @@ function Question({ questionData, mode = "practice", sessionCode }) {
       if (user.role === "interviewer") {
         console.log("hosting")
         socket.emit("hostSession", { sessionCode })
+        socket.on("receiveLiveCode", (data) => {
+          setCode(data.code)
+          setOutput(data.output)
+        })
       } else {
         console.log("joining")
         socket.emit("joinSession", { sessionCode })
+        socket.on("receiveLiveInput", (data) => {
+          setInput(data.input)
+        })
       }
-      socket.on("receiveLiveTyping", (data) => {
-        setCode(data.code)
-        setInput(data.input)
-        setOutput(data.output)
-      })
       socket.on("receiveNewQuestion", (data) => {
         console.log(data)
         setQData(data)
@@ -78,9 +80,11 @@ function Question({ questionData, mode = "practice", sessionCode }) {
 
   useEffect(() => {
     if (mode === "live") {
-      socket.emit("liveTyping", { sessionCode, mode, input, output, code })
+      socket.emit("liveCode", { sessionCode, mode, output, code })
+      socket.emit("liveInput", { sessionCode, mode, input })
       socket.on("initialLoad", () => {
-        socket.emit("liveTyping", { sessionCode, mode, input, output, code })
+        socket.emit("liveCode", { sessionCode, mode, input, output, code })
+        socket.emit("liveInput", { sessionCode, mode, input })
       })
     }
   }, [mode, code, input, output, sessionCode])
@@ -198,12 +202,14 @@ function Question({ questionData, mode = "practice", sessionCode }) {
                 enableLiveAutocompletion: true,
                 enableSnippets: true,
               }}
+              readOnly={user.role === "interviewer"}
               // highlightActiveLine={joinedSessionCode === "" ? true : false}
               // readOnly={joinedSessionCode === "" ? false : true}
             />
           </section>
           <section className="editor input-editor">
             <AceEditor
+              readOnly={user.role === "candidate"}
               showGutter={false}
               placeholder="Input"
               mode="text"

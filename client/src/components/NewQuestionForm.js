@@ -105,7 +105,10 @@ function NewQuestionForm() {
         <div
           className=""
           radioGroup="question-difficulty"
-          onChange={(e) => setDifficulty(e.target.value)}>
+          onChange={(e) => {
+            console.log(e.target.value)
+            setDifficulty(e.target.value)
+          }}>
           <div className="option-select-input">
             <input
               type="radio"
@@ -113,6 +116,7 @@ function NewQuestionForm() {
               name="question-difficulty"
               radioGroup="question-difficulty"
               defaultChecked={difficulty === "easy"}
+              value="easy"
             />
             <label htmlFor="easy">Easy</label>
           </div>
@@ -122,6 +126,7 @@ function NewQuestionForm() {
               id="medium"
               name="question-difficulty"
               radioGroup="question-difficulty"
+              value="medium"
             />
             <label htmlFor="medium">Medium</label>
           </div>
@@ -131,6 +136,7 @@ function NewQuestionForm() {
               id="hard"
               name="question-difficulty"
               radioGroup="question-difficulty"
+              value="hard"
             />
             <label htmlFor="hard">Hard</label>
           </div>

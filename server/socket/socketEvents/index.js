@@ -23,13 +23,18 @@ module.exports.socketEvents = (client, io) => {
   })
 
   // when client emits a 'realTime' event
-  client.on("liveTyping", (data) => {
+  client.on("liveCode", (data) => {
     const { sessionCode, input, output, code } = data
 
     // server emits 'realReceive' event to this client
-    io.to(sessionCode).emit("receiveLiveTyping", { input, code, output })
+    io.to(sessionCode).emit("receiveLiveCode", { code, output })
   })
+  client.on("liveInput", (data) => {
+    const { sessionCode, input, output, code } = data
 
+    // server emits 'realReceive' event to this client
+    io.to(sessionCode).emit("receiveLiveInput", { input })
+  })
   // when client emits a 'realTime' event
   client.on("candidateLoseFocus", (data) => {
     const { sessionCode } = data
